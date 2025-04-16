@@ -12,3 +12,7 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 });
+
+// Force Light Mode
+document.body.classList.remove('dark'); // Remove any dark mode class
+document.body.classList.add('light');   // Apply the light mode class
