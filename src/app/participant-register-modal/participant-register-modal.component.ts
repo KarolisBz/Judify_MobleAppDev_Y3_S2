@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonImg, IonModal, ModalController, IonButton, IonButtons, IonItem, IonInput, IonFooter, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
@@ -12,12 +13,27 @@ import { Router } from '@angular/router';
 })
 export class ParticipantRegisterModalComponent implements OnInit {
 
-  constructor(private modalController: ModalController, private router: Router) { }
+  constructor(private modalController: ModalController, private router: Router, private toastController: ToastController) { }
 
   ngOnInit() { }
 
   cancel() {
     this.modalController.dismiss();
-    this.router.navigate(['/login']);
+  }
+
+  private async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Account created Successfully.',
+      duration: 5000,
+      color: 'success',
+      position: 'bottom' // or 'top', 'middle'
+    });
+    await toast.present();
+  }
+
+  async register() {
+    // Implement registration logic here
+    this.modalController.dismiss();
+    await this.presentToast();
   }
 }

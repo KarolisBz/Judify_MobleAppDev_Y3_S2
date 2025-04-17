@@ -19,7 +19,7 @@ export class OrganizerRegisterModalComponent  implements OnInit {
     this.modalController.dismiss();
   }
 
-  register() {
+  private register() {
     // Implement registration logic here
     this.modalController.dismiss();
   }
