@@ -8,12 +8,12 @@
   }
   
   .circle:nth-child(1) {
-    background-color: #003366;
+    background: radial-gradient(circle, #003366, #000000);
     top: 0;
   }
   
   .circle:nth-child(2) {
-    background-color: #E60012;
+    background: radial-gradient(circle, #E60012, #00070e);
     top: 80vw;
   }
   
