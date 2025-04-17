@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonImg, IonModal, ModalController } from '@ionic/angular/standalone';
-import { OrganizerRegisterModalComponent } from '../organizer-register-modal/organizer-register-modal.component';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonImg, IonModal } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-home',
@@ -14,16 +13,9 @@ import { OrganizerRegisterModalComponent } from '../organizer-register-modal/org
 })
 export class HomePage implements OnInit {
 
-  constructor(private modalController: ModalController, private router: Router) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-  }
-
-  async openModal() {
-    const modal = await this.modalController.create({
-      component: OrganizerRegisterModalComponent, // the modal component you created
-    });
-    return await modal.present();
   }
 
   goToLogin(type: string) {
