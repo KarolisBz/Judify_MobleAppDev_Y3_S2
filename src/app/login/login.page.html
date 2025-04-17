@@ -1,14 +1,12 @@
-<ion-content [fullscreen]="true" class="login-content">
-  <h2>You selected: {{ userType }}</h2>
-
+<ion-content [fullscreen]="true">
   <ion-grid>
     <ion-row size="12">
-      <ion-col style="margin: 2%; margin-top: 20%;">
+      <ion-col style="margin-top: 30%;">
         <ion-title class="ion-text-center logo-text">Judofy</ion-title>
       </ion-col>
     </ion-row>
 
-    <ion-row size="12">
+    <ion-row size="12" style="margin-top: 5%;">
       <ion-col>
         <ion-item lines="none" class="input-item">
           <ion-input placeholder="Phone Number, Username, Email" type="text" class="custom-input"></ion-input>
@@ -32,25 +30,20 @@
       </ion-col>
     </ion-row>
 
-    <ion-row>
-      <ion-col class="ion-text-end" >
+    <ion-row style="margin-top: 1rem;">
+      <ion-col size="12" class="ion-text-end" >
         <ion-button expand="block" class="custom-button">Log In</ion-button>
+        <ion-img src="assets/imgs/divider.png"></ion-img>
+        <ion-button expand="block" class="custom-button" style="--background: #2A5A8B">Register</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
-  <div class="divider">
-    <div class="line"></div>
-    <div class="or-text">Or</div>
-    <div class="line"></div>
-  </div>
-
-  <ion-button expand="block" class="register-btn">Register</ion-button>
-
-  <div class="footer-text">
-    By clicking continue, you agree to our
-    <a href="#">Terms of Service</a> and
-    <a href="#">Privacy Policy</a>
-  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar style="--background: linear-gradient(to bottom, rgba(255, 255, 255, 0.397) 1%, rgb(255, 255, 255));">
+    <ion-text>
+      By clicking log-in, you agree to our a <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+    </ion-text>
+  </ion-toolbar>
+</ion-footer>
