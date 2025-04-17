@@ -43,14 +43,22 @@
 // change all bag  round colors to light gray
 ion-app,
 ion-content {
-  --background: radial-gradient(circle, #ffffff 50%, #797979);
+  --background: radial-gradient(circle, #fdfdfd 70%, #afafaf);
 }
 
 // global styles
 .custom-title {
     font-family: 'Inter', sans-serif;
-    font-size: 2rem;
+    font-size: 7vw;
     color: black;
     padding-top: 25px;
     font-weight: bold;
+}
+
+.logo-text {
+  font-size: 10vw;
+  color: black;
+  padding-top: 25px;
+  font-family: 'Merienda One', sans-serif;
+  font-weight: 00;
 }

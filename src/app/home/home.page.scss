@@ -5,15 +5,16 @@
     position: absolute;
     left: 50%; /* Move the circles to the center horizontally */
     transform: translateX(-50%); /* Offseting by half of the circle's width to perfectly center */
+    cursor: pointer;
   }
   
   .circle:nth-child(1) {
-    background: radial-gradient(circle, #003366, #000000);
+    background: radial-gradient(circle, #003366 50%, #000000);
     top: 0;
   }
   
   .circle:nth-child(2) {
-    background: radial-gradient(circle, #E60012, #00070e);
+    background: radial-gradient(circle, #E60012 50%, #00070e);
     top: 80vw;
   }
   
@@ -21,6 +22,7 @@
     font-size: 1.5rem;
     text-align: center;
     font-family: 'Merienda One', cursive;
+    color: white;
   }
 
   ion-img {

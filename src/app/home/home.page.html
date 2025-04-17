@@ -8,13 +8,13 @@
 
     <ion-row style="text-align: center;">
       <ion-col>
-        <div class="circle"> <!-- First circle -->
+        <div class="circle" (click)="goToLogin('organizer')"> <!-- First circle -->
           <br><br>
           <span class="label">Organizer</span>
           <ion-img src="assets/imgs/organizer.png"></ion-img>
         </div>
 
-        <div class="circle"> <!-- Second circle -->
+        <div class="circle" (click)="goToLogin('participant')"> <!-- Second circle -->
           <br><br><br>
           <span class="label">Participant</span>
           <ion-img src="assets/imgs/participants.png" style=" width: 90%; height: 90%;"></ion-img>
