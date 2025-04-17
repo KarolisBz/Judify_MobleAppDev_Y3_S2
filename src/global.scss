@@ -59,3 +59,7 @@ ion-content {
   font-family: 'Merienda One', sans-serif;
   font-weight: 00;
 }
+
+.transparent-footer {
+  --background: linear-gradient(rgba(255, 255, 255, 0.397) 1%, rgb(255, 255, 255));
+}

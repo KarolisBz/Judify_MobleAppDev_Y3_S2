@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register - Participant</ion-title>
+    <ion-buttons slot="end">
+        <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center">
+  <div class="center-items">
+    <ion-item>
+      <ion-input label="Enter Competition Code" labelPlacement="stacked" type="text" placeholder="XXX-XXX-XXX-XXX-XXX"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Enter your full name" labelPlacement="stacked" type="text" placeholder="Name & Surname"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Enter your club affiliation" labelPlacement="stacked" type="text" placeholder="Club / University"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Enter your email" labelPlacement="stacked" type="text" placeholder="Example@email.ie"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Enter your home address" labelPlacement="stacked" type="text" placeholder="Home Address"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Enter your phone number" labelPlacement="stacked" type="text" placeholder="353+"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Enter your emergancy contact" labelPlacement="stacked" type="text" placeholder="353+"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select label="Select Sex" labelPlacement="stacked" placeholder="Male / Female">
+      <ion-select-option value="male">Male</ion-select-option>
+      <ion-select-option value="female">Female</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select label="Select Age Category" labelPlacement="stacked" placeholder="under 18 / over 18">
+      <ion-select-option value="under 18">under 18</ion-select-option>
+      <ion-select-option value="over 18">over 18</ion-select-option>
+      <ion-select-option value="senior 60+">senior 60+</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select label="Select weight class" labelPlacement="stacked" placeholder="under 60 KG">
+      <ion-select-option value="60">under 60 KG</ion-select-option>
+      <ion-select-option value="66">60 - 66 KG</ion-select-option>
+      <ion-select-option value="73">66 - 73 KG</ion-select-option>
+      <ion-select-option value="81">73 - 81 KG</ion-select-option>
+      <ion-select-option value="90">81 - 90 KG</ion-select-option>
+      <ion-select-option value="100">90 - 100 KG</ion-select-option>
+      <ion-select-option value="100+">100+ KG</ion-select-option>
+      </ion-select>
+    </ion-item>
+      <ion-item>
+        <ion-select label="Select Kyū / Belt" labelPlacement="stacked" placeholder="White">
+        <ion-select-option value="White">White</ion-select-option>
+        <ion-select-option value="Yellow">Yellow</ion-select-option>
+        <ion-select-option value="Orange">Orange</ion-select-option>
+        <ion-select-option value="Green">Green</ion-select-option>
+        <ion-select-option value="Blue">Blue</ion-select-option>
+        <ion-select-option value="Brown">Brown</ion-select-option>
+        <ion-select-option value="Black">Black</ion-select-option>
+        <ion-select-option value="First dan">First dan</ion-select-option>
+        <ion-select-option value="Second dan">Second dan</ion-select-option>
+        <ion-select-option value="Third dan">Third dan</ion-select-option>
+        <ion-select-option value="Fourth dan">Fourth dan</ion-select-option>
+        <ion-select-option value="Fifth dan">Fifth dan</ion-select-option>
+        <ion-select-option value="Sixth dan">Sixth dan</ion-select-option>
+        <ion-select-option value="Seventh dan">Seventh dan</ion-select-option>
+        <ion-select-option value="Eighth dan">Eighth dan</ion-select-option>
+        <ion-select-option value="Ninth dan">Ninth dan</ion-select-option>
+        <ion-select-option value="Tenth dan">Tenth dan</ion-select-option>
+        </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Prepaid" labelPlacement="stacked" type="text" placeholder="Coverage Code"></ion-input>
+    </ion-item>
+  </div>
+
+  <ion-card class="fee-summary-card">
+    <ion-card-header>
+      <ion-card-title>Payment Summary</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row class="fee-row">
+          <ion-col>Registration Fee</ion-col>
+          <ion-col class="amount">€45.00</ion-col>
+        </ion-row>
+        <ion-row class="fee-row">
+          <ion-col>University Coverage</ion-col>
+          <ion-col class="amount">-€45.00</ion-col>
+        </ion-row>
+        <ion-row class="total-row">
+          <ion-col><strong>Total</strong></ion-col>
+          <ion-col class="amount"><strong>€0.00</strong></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" class="custom-button" style="margin-top: 1%;">Register</ion-button><br>
+</ion-content>
