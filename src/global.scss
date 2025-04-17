@@ -36,8 +36,21 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
+/* importing new fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+
 // change all bag  round colors to light gray
 ion-app,
 ion-content {
   --background: #D9D9D9;
+}
+
+// global styles
+.custom-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem;
+    color: black;
+    padding-top: 25px;
+    font-weight: bold;
 }

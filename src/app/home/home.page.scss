@@ -1,0 +1,24 @@
+.circle {
+    width: 90vw;
+    height: 90vw;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%; /* Move the circles to the center horizontally */
+    transform: translateX(-50%); /* Offseting by half of the circle's width to perfectly center */
+  }
+  
+  .circle:nth-child(1) {
+    background-color: #003366;
+    top: 0;
+  }
+  
+  .circle:nth-child(2) {
+    background-color: #E60012;
+    top: 80vw;
+  }
+  
+  .label {
+    font-size: 1.5rem;
+    text-align: center;
+    font-family: 'Merienda One', cursive;
+  }
