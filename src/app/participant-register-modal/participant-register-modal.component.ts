@@ -32,8 +32,7 @@ export class ParticipantRegisterModalComponent implements OnInit {
   }
 
   async register() {
-    // Implement registration logic here
-    this.modalController.dismiss();
+    this.cancel()
     await this.presentToast();
   }
 }
