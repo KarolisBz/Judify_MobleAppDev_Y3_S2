@@ -22,4 +22,8 @@ export const routes: Routes = [
     path: 'tournament-participant',
     loadComponent: () => import('./tournament-participant/tournament-participant.page').then( m => m.TournamentParticipantPage)
   },
+  {
+    path: 'gesture-test',
+    loadComponent: () => import('./gesture-test/gesture-test.page').then( m => m.GestureTestPage)
+  },
 ];
