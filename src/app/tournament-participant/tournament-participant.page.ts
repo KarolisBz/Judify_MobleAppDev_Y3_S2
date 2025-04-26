@@ -16,6 +16,8 @@ export class TournamentParticipantPage implements OnInit {
   tournamentInfo!: any;
   wrapper: HTMLElement | null = null;
   bracketTable: HTMLElement;
+  svg: HTMLElement | null = null;
+  playerCells: any | null = null;
   zoomIntensity: number = 0.1; // initial zoom level
   scale: number = 1;
 
@@ -28,6 +30,8 @@ export class TournamentParticipantPage implements OnInit {
 
     this.wrapper = document.querySelector('.bracket-wrapper');
     this.bracketTable = document.querySelector('.bracket-table')!;
+    this.svg = document.querySelector('.bracket-lines');
+    this.playerCells = document.querySelectorAll('.player-cell');
   }
 
   ngOnInit() {

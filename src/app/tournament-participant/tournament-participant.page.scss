@@ -22,7 +22,7 @@
     padding-bottom: 20px;
   }
   
-  .player-cell, .matchup-cell {
+  .player-cell {
     background: white;
     border: 2px solid #ccc;
     border-radius: 8px;
@@ -32,10 +32,72 @@
     min-width: 150px;
     min-height: 60px;
     box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    position: relative;
   }
   
-  /* Optional: Hover effect */
+  /* Hover effect, pc */
   .player-cell:hover, .matchup-cell:hover {
-    background-color: #f0f0f0;
+    background-color: #00000059;
   }
-  
+
+  .vertical-connector {
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 0.2rem;
+    width: 36.5%;
+    transform: translateY(-50%);
+    transform: translateX(+277%);
+    z-index: 1;
+  }
+
+  .vertical-end-connector {
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 0.2rem;
+    width: 20%;
+    transform: translateY(-50%);
+    transform: translateX(-100%);
+    z-index: 1;
+  }
+
+  .horizontal-connector {
+    background-color: black;
+    position: absolute;
+    top: -190%;
+    left: 0;
+    right: 0;
+    height: 490%;
+    width: 0.2rem;
+    transform: translateX(-32.5px);
+    z-index: 1;
+  }
+
+  .horizontal-connector-2 {
+    background-color: black;
+    position: absolute;
+    top: -440%;
+    left: 0;
+    right: 0;
+    height: 980%;
+    width: 0.2rem;
+    transform: translateX(-32.5px);
+    z-index: 1;
+  }
+
+  .horizontal-connector-3 {
+    background-color: black;
+    position: absolute;
+    top: -930%;
+    left: 0;
+    right: 0;
+    height: 1960%;
+    width: 0.2rem;
+    transform: translateX(-32.5px);
+    z-index: 1;
+  }
