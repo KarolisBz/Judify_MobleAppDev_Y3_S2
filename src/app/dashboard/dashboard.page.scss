@@ -1,0 +1,39 @@
+ion-item {
+    --background: #f0f0f0;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+  
+  .active-tournament {
+    --background: #d0d8e0;
+  }
+  
+  .past-tournament {
+    --background: #f8d7da;
+  }
+  
+  .upcoming-tournament {
+    --background: #e2e3e5;
+  }
+  
+  ion-button {
+    border-radius: 12px;
+    font-weight: bold;
+  }
+  
+  .custom-button {
+    margin-top: 10%;
+    height: 3rem;
+    width: 70vw;
+    margin: auto;
+    border-radius: 10px;
+    text-align: center;
+    font-size: large;
+    --background: #003366; // Dark blue
+    color: white;
+}
+
+ion-footer {
+  height: 4rem;
+  background-color: #ffffff;
+}

@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <div>
+  <div #div>
     <ion-grid>
       <ion-row style="margin-top: 15vh; margin-bottom: 10vw;">
         <ion-col>
@@ -33,7 +33,7 @@
 
       <ion-row style="margin-top: 1rem;">
         <ion-col class="ion-text-end">
-          <ion-button expand="block" class="custom-button">Log In</ion-button>
+          <ion-button expand="block" class="custom-button" (click)="login()">Log In</ion-button>
           <ion-img src="assets/imgs/divider.png"></ion-img>
           <ion-button expand="block" class="custom-button" style="--background: #2A5A8B"
             (click)="openModal()">Register</ion-button>

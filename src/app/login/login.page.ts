@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizerRegisterModalComponent } from '../organizer-register-modal/organizer-register-modal.component';
 import { ParticipantRegisterModalComponent } from '../participant-register-modal/participant-register-modal.component';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonGrid, IonRow, IonCol, IonImg, IonFooter, IonText, ModalController } from '@ionic/angular/standalone';
+import { IonContent, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonGrid, IonRow, IonCol, IonImg, IonFooter, IonText, ModalController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonItem, IonInput, IonButton, IonGrid, IonRow, IonCol, IonImg, IonFooter, IonText]
+  imports: [IonContent, IonTitle, IonToolbar, CommonModule, FormsModule, IonItem, IonInput, IonButton, IonGrid, IonRow, IonCol, IonImg, IonFooter, IonText]
 })
 export class LoginPage implements OnInit {
   userType: string = '';
 
-  constructor(private route: ActivatedRoute, private modalController: ModalController) {
+  constructor(private route: ActivatedRoute, private modalController: ModalController, private router: Router) {
     this.route.queryParams.subscribe(params => {
       this.userType = params['type'] || 'Unknown';
     });
@@ -40,6 +40,9 @@ export class LoginPage implements OnInit {
     return await modal.present();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  login() {
+    this.router.navigate(['/dashboard']);
   }
 }

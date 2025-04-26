@@ -1,13 +1,39 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>dashboard</ion-title>
+    <ion-title class="ion-text-center custom-title">Tournaments</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-searchbar placeholder="Search" [(ngModel)]="searchTerm" (input)="filterTournaments()"></ion-searchbar>
+
+  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="filterTournaments()">
+    <ion-segment-button value="all">
+      All
+    </ion-segment-button>
+    <ion-segment-button value="active">
+      Active
+    </ion-segment-button>
+    <ion-segment-button value="upcoming">
+      Upcoming
+    </ion-segment-button>
+    <ion-segment-button value="past">
+      Past
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-list>
+    <ion-item *ngFor="let item of filteredData$ | async" [ngClass]="getItemClass(item.status)">
+      <ion-label>
+        <h2><strong>{{ item.name }}</strong></h2>
+        <p>{{ item.date | date: 'MM/dd/yyyy, h:mma' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar class="transparent-footer">
+    <ion-button expand="block" class="custom-button" (click)="addTournament()">Add</ion-button>
+  </ion-toolbar>
+</ion-footer>
