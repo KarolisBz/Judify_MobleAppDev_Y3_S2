@@ -46,20 +46,24 @@ ion-content {
 // global styles
 .custom-title {
     font-family: 'Inter', sans-serif;
-    font-size: 7vw;
+    font-size: 1.5rem;
     color: black;
-    padding-top: 25px;
-    font-weight: bold;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
 }
 
 .logo-text {
-  font-size: 10vw;
+  font-size: 3rem;
   color: black;
-  padding-top: 25px;
   font-family: 'Merienda One', sans-serif;
-  font-weight: 00;
+  font-weight: 500;
 }
 
 .transparent-footer {
   --background: linear-gradient(rgba(255, 255, 255, 0.397) 1%, rgb(255, 255, 255));
+}
+
+.screen-container {
+  height: 100%;
 }

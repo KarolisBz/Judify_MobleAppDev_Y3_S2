@@ -1,26 +1,28 @@
-<ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col style="margin: 5%;">
-        <ion-title class="ion-text-center custom-title" style=" font-family: 'Merienda One', cursive">Select who you are...</ion-title>
-      </ion-col>
-    </ion-row>
-
-    <ion-row style="text-align: center;">
-      <ion-col>
-        <div class="circle" (click)="goToLogin('organizer')"> <!-- First circle -->
-          <br><br>
-          <span class="label">Organizer</span>
-          <ion-img src="assets/imgs/organizer.png"></ion-img>
-        </div>
-
-        <div class="circle" (click)="goToLogin('participant')"> <!-- Second circle -->
-          <br><br><br>
-          <span class="label">Participant</span>
-          <ion-img src="assets/imgs/participants.png" style=" width: 90%; height: 90%;"></ion-img>
-        </div>
-      </ion-col>
-    </ion-row>
-
-  </ion-grid>
+<ion-content [fullscreen]="true">
+  <div class="safe-area">
+    <ion-grid>
+      <ion-row>
+        <ion-col style="padding: 2rem;">
+          <ion-title class="ion-text-center custom-title" style=" font-family: 'Merienda One', cursive; font-size: 5vw">Select who you are...</ion-title>
+        </ion-col>
+      </ion-row>
+  
+      <ion-row style="text-align: center;">
+        <ion-col>
+          <div class="circle" (click)="goToLogin('organizer')"> <!-- First circle -->
+            <br><br>
+            <span class="label">Organizer</span>
+            <ion-img src="assets/imgs/organizer.png"></ion-img>
+          </div>
+  
+          <div class="circle" (click)="goToLogin('participant')"> <!-- Second circle -->
+            <br><br><br>
+            <span class="label">Participant</span>
+            <ion-img src="assets/imgs/participants.png" style=" width: 90%; height: 90%;"></ion-img>
+          </div>
+        </ion-col>
+      </ion-row>
+  
+    </ion-grid>
+  </div>
 </ion-content>
