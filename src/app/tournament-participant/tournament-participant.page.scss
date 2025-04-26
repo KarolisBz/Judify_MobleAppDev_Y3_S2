@@ -1,0 +1,41 @@
+.bracket-wrapper {
+    overflow: auto;
+    padding: 20px;
+    background: #f9f9f9;
+    height: 100%;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    transform-origin: 0 0; /* scaling from top-left corner */
+    transition: transform 0.2s ease; /* Smooth zooming */
+  }
+  
+  .bracket-table {
+    border-collapse: separate;
+    border-spacing: 80px 40px; /* Space between rounds and matches */
+    width: 100%;
+  }
+  
+  th {
+    text-align: center;
+    font-size: 18px;
+    padding-bottom: 20px;
+  }
+  
+  .player-cell, .matchup-cell {
+    background: white;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    min-width: 150px;
+    min-height: 60px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* Optional: Hover effect */
+  .player-cell:hover, .matchup-cell:hover {
+    background-color: #f0f0f0;
+  }
+  

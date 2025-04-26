@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonSegmentButton, IonList, IonLabel, IonButton, IonSegment, IonSearchbar, IonFooter, IonItem } from '@ionic/angular/standalone';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -55,7 +56,7 @@ export class DashboardPage implements OnInit {
   filteredData$: Observable<any[]>;
 
 
-  constructor() { 
+  constructor(private router: Router) { 
     // Initially no filter: show everything
     this.filteredData$ = this.tournaments$.asObservable();
   }
@@ -93,4 +94,10 @@ export class DashboardPage implements OnInit {
   addTournament() {
     console.log('Add tournament clicked');
   }
+
+  openTournamentDetails(tournament: any) {
+    this.router.navigate(['/tournament-participant'], {
+      state: { tournament: tournament }
+      })
+    }
 }

@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen="true">
   <ion-searchbar placeholder="Search" [(ngModel)]="searchTerm" (input)="filterTournaments()"></ion-searchbar>
 
   <ion-segment [(ngModel)]="selectedSegment" (ionChange)="filterTournaments()">
@@ -24,7 +24,7 @@
 
   <ion-list>
     <ion-item *ngFor="let item of filteredData$ | async" [ngClass]="getItemClass(item.status)">
-      <ion-label>
+      <ion-label (click)="openTournamentDetails(item)">
         <h2><strong>{{ item.name }}</strong></h2>
         <p>{{ item.date | date: 'MM/dd/yyyy, h:mma' }}</p>
       </ion-label>
