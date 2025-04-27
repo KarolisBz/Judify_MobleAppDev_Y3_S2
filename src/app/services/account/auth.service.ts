@@ -6,8 +6,8 @@ import { Platform } from '@ionic/angular';
 import { Participant } from 'src/app/classes/account/participant';
 import { Router } from '@angular/router';
 // firebase
-import { Auth, getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User, createUserWithEmailAndPassword, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from '@angular/fire/auth';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { Auth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User, createUserWithEmailAndPassword, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from '@angular/fire/auth';
+import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,7 @@ export class AuthService {
     // change user automatically
     onAuthStateChanged(this.auth, (user) => {
       this.currentUser.next(user);
+      console.log('User state changed:', user?.uid);
     });
   }
 
@@ -90,17 +91,6 @@ export class AuthService {
     }
   }
 
-  async storeUserData(uid: string, userData: any) {
-    const db = this.firestore; // Firestore instance
-    await setDoc(doc(db, 'users', uid), userData)
-      .then(() => {
-        console.log('User data stored successfully!');
-      })
-      .catch((error) => {
-        console.error('Error storing user data:', error);
-      });
-  }
-
   // login promise operation working in the background
   async login(email: string, password: string): Promise<void> {
     try {
@@ -118,27 +108,52 @@ export class AuthService {
     await signOut(this.auth);
   }
 
+  async storeUserData(uid: string, userData: any) {
+    const db = this.firestore; // Firestore instance
+    await setDoc(doc(db, 'users', uid), userData)
+      .then(() => {
+        console.log('User data stored successfully!');
+      })
+      .catch((error) => {
+        console.error('Error storing user data:', error);
+      });
+  }
+
   // getters
   getCurrentUser(): User | null {
     return this.currentUser.value;
   }
 
-  // native toast message
-  async showToast(message: string, color: string, duration: number = 2500) {
-      if (this.platform.is('capacitor')) {
-        await Toast.show({
-          text: message,
-          duration: 'short',
-          position: 'bottom',
-        });
+  async getUserData(uid: string): Promise<any> {
+    if (uid) {
+      const db = this.firestore; // Firestore instance
+      const docRef = doc(db, 'users', uid);
+      const docSnap = await getDoc(docRef); // fetching document
+
+      if (docSnap.exists()) {
+        return docSnap.data()['tournament_entries'];
       } else {
-        const toast = await this.toastController.create({
-          message: message,
-          duration: duration,  // 2 seconds duration
-          position: 'bottom',
-          color: color,
-        });
-        await toast.present();
+        console.log('No such document!');
       }
     }
+  }
+
+  // native toast message
+  async showToast(message: string, color: string, duration: number = 2500) {
+    if (this.platform.is('capacitor')) {
+      await Toast.show({
+        text: message,
+        duration: 'short',
+        position: 'bottom',
+      });
+    } else {
+      const toast = await this.toastController.create({
+        message: message,
+        duration: duration,  // 2 seconds duration
+        position: 'bottom',
+        color: color,
+      });
+      await toast.present();
+    }
+  }
 }

@@ -6,6 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../services/account/auth.service';
+import { ServerDataService } from '../services/serverData/server-data.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,57 +21,39 @@ export class DashboardPage implements OnInit {
   selectedSegment = 'all';
 
   // dummy data
-  private tournaments$ = new BehaviorSubject<any[]>(
-    [
-      { name: "All Ireland's Judo", date: new Date('2025-10-03T10:00:00'), status: 'all' },
-      { name: "Active Judo Tournament", date: new Date('2025-10-02T09:00:00'), status: 'active' },
-      { name: "Past Judo Tournament", date: new Date('2024-10-01T11:00:00'), status: 'past' },
-      { name: "Upcoming Judo Tournament", date: new Date('2025-10-03T10:00:00'), status: 'upcoming' },
-      { name: "All Ireland's Judo", date: new Date('2025-10-03T10:00:00'), status: 'all' },
-      { name: "Active Judo Tournament", date: new Date('2025-10-02T09:00:00'), status: 'active' },
-      { name: "Past Judo Tournament", date: new Date('2024-10-01T11:00:00'), status: 'past' },
-      { name: "Upcoming Judo Tournament", date: new Date('2025-10-03T10:00:00'), status: 'upcoming' },
-      { name: "All Ireland's Judo", date: new Date('2025-10-03T10:00:00'), status: 'all' },
-      { name: "Active Judo Tournament", date: new Date('2025-10-02T09:00:00'), status: 'active' },
-      { name: "Past Judo Tournament", date: new Date('2024-10-01T11:00:00'), status: 'past' },
-      { name: "Upcoming Judo Tournament", date: new Date('2025-10-03T10:00:00'), status: 'upcoming' },
-      { name: "All Ireland's Judo", date: new Date('2025-10-03T10:00:00'), status: 'all' },
-      { name: "Active Judo Tournament", date: new Date('2025-10-02T09:00:00'), status: 'active' },
-      { name: "Past Judo Tournament", date: new Date('2024-10-01T11:00:00'), status: 'past' },
-      { name: "Upcoming Judo Tournament", date: new Date('2025-10-03T10:00:00'), status: 'upcoming' },
-      { name: "All Ireland's Judo", date: new Date('2025-10-03T10:00:00'), status: 'all' },
-      { name: "Active Judo Tournament", date: new Date('2025-10-02T09:00:00'), status: 'active' },
-      { name: "Past Judo Tournament", date: new Date('2024-10-01T11:00:00'), status: 'past' },
-      { name: "Upcoming Judo Tournament", date: new Date('2025-10-03T10:00:00'), status: 'upcoming' },
-      { name: "All Ireland's Judo", date: new Date('2025-10-03T10:00:00'), status: 'all' },
-      { name: "Active Judo Tournament", date: new Date('2025-10-02T09:00:00'), status: 'active' },
-      { name: "Past Judo Tournament", date: new Date('2024-10-01T11:00:00'), status: 'past' },
-      { name: "Upcoming Judo Tournament", date: new Date('2025-10-03T10:00:00'), status: 'upcoming' },
-      { name: "All Ireland's Judo", date: new Date('2025-10-03T10:00:00'), status: 'all' },
-      { name: "Active Judo Tournament", date: new Date('2025-10-02T09:00:00'), status: 'active' },
-      { name: "Past Judo Tournament", date: new Date('2024-10-01T11:00:00'), status: 'past' },
-      { name: "Upcoming Judo Tournament", date: new Date('2025-10-03T10:00:00'), status: 'upcoming' },
-    ]
-  );
+  private tournamentsSubject = new BehaviorSubject<any[]>([]);
 
   // public filtered data
-  filteredData$: Observable<any[]>;
+  filteredData$?: Observable<any[]>;
 
 
-  constructor(private router: Router, private authService: AuthService) {
-    // Initially no filter: show everything
-    this.filteredData$ = this.tournaments$.asObservable();
-
+  constructor(private router: Router, private authService: AuthService, private serverData: ServerDataService) {
     // user can't skip foward to fashboard if they are not logged in
     if (this.authService.getCurrentUser() == null) {
-      this.router.navigate(['/login']);
+      //this.router.navigate(['/login']);
     }
   }
 
-  ngOnInit() { }
+  async ngOnInit() {
+    // Initially no filter: show everything
+    let userData: any = await this.authService.getUserData("eAVIYEbNyMQDEpVxAhERlM0hMbE3");  // Get user data
+    console.log(userData);
+    
+    // Fetch tournament entries based on user data
+    this.serverData.getTournaments(userData).subscribe((data: any) => {
+      data.map((tournament: any) => {
+        tournament.date = new Date(tournament.date.seconds * 1000);
+      });
+
+      this.tournamentsSubject.next(data);  // Update BehaviorSubject with new data
+    });
+
+    // Define the filteredData$ observable
+    this.filteredData$ = this.tournamentsSubject.asObservable();
+   }
 
   public filterTournaments() {
-    this.filteredData$ = this.tournaments$.pipe(
+    this.filteredData$ = this.tournamentsSubject.pipe(
       map((tournaments) =>
         tournaments.filter(
           (tournament) =>
