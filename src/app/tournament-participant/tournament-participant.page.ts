@@ -89,6 +89,7 @@ export class TournamentParticipantPage implements OnInit {
     this.scaleVeiw();
   }
 
+  // github fixed
   onPinchOut(newScale: number) {
     this.scale = newScale;
     this.scaleVeiw();
