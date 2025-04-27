@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizerRegisterModalComponent } from '../organizer-register-modal/organizer-register-modal.component';
 import { ParticipantRegisterModalComponent } from '../participant-register-modal/participant-register-modal.component';
 import { IonContent, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonGrid, IonRow, IonCol, IonImg, IonFooter, IonText, ModalController } from '@ionic/angular/standalone';
-import { ToastController } from '@ionic/angular';
 import { AuthService } from '../services/account/auth.service';
 
 @Component({
@@ -20,7 +19,7 @@ export class LoginPage implements OnInit {
   email: string = '';
   password: string = '';
 
-  constructor(private route: ActivatedRoute, private modalController: ModalController, private router: Router, private authService: AuthService, private toastController: ToastController) {
+  constructor(private route: ActivatedRoute, private modalController: ModalController, private router: Router, private authService: AuthService) {
     this.route.queryParams.subscribe(params => {
       this.userType = params['type'] || 'Unknown';
     });
@@ -47,25 +46,6 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   async login() {
-    try {
-      console.log('Login attempt with', this.email, this.password);
-      await this.authService.login(this.email, this.password);
-      this.router.navigate(['/dashboard']);
-      this.showToast('Login success', 'success', 1000);
-    } catch (error) {
-      console.error('Login failed', error);
-      this.showToast('Login failed. Please check your credentials.', 'danger');
-    }
-  }
-
-  // native toast message
-  async showToast(message: string, color: string, duration: number = 2500) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2500,
-      color: color,
-      position: 'bottom',
-    });
-    await toast.present();
+    await this.authService.login(this.email, this.password);
   }
 }
