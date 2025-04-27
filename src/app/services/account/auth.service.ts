@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ToastController } from '@ionic/angular';
+import { Toast } from '@capacitor/toast'
+import { Platform } from '@ionic/angular';
 import { Participant } from 'src/app/classes/account/participant';
 import { Router } from '@angular/router';
 // firebase
@@ -15,7 +17,7 @@ export class AuthService {
   private currentUser = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUser.asObservable();
 
-  constructor(private auth: Auth, private toastController: ToastController, private firestore: Firestore, private router: Router) {
+  constructor(private auth: Auth, private toastController: ToastController, private firestore: Firestore, private router: Router, private platform: Platform) {
     // change user automatically
     onAuthStateChanged(this.auth, (user) => {
       this.currentUser.next(user);
@@ -122,12 +124,19 @@ export class AuthService {
 
   // native toast message
   async showToast(message: string, color: string, duration: number = 2500) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2500,
-      color: color,
-      position: 'bottom',
-    });
-    await toast.present();
-  }
+      if (this.platform.is('capacitor')) {
+        await Toast.show({
+          text: message,
+          duration: 'long',
+          position: 'bottom',
+        });
+      } else {
+        const toast = await this.toastController.create({
+          message: message,
+          duration: 2000,  // 2 seconds duration
+          position: 'bottom',
+        });
+        await toast.present();
+      }
+    }
 }

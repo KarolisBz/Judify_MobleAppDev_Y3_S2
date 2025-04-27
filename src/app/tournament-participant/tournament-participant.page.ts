@@ -51,7 +51,7 @@ export class TournamentParticipantPage implements OnInit {
     this.wrapper = document.querySelector('.bracket-wrapper');
     this.bracketTable = document.querySelector('.bracket-table')!;
 
-    if (this.wrapper) {
+    if (this.wrapper && !this.platform.is('capacitor')) {
       this.wrapper.addEventListener('wheel', (event: WheelEvent) => {
         if (event.ctrlKey) { // while ctrl key is being held down
           event.preventDefault(); // Prevent scroll
@@ -73,7 +73,7 @@ export class TournamentParticipantPage implements OnInit {
   ngAfterViewInit() {
     // adding custom pinch gesture
     // this adds mobile support for zoom in / out
-    if (this.platform.is('mobile')) {
+    if (this.platform.is('capacitor')) {
       this.gesture = this.pinchGestureService.createPinchGesture(
         this.content,
         (scaleStrength: number) => this.onPinchOut(scaleStrength), // zoom in
