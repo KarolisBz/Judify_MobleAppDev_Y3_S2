@@ -1,6 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>{{tournamentInfo.name}}</ion-title>
+    <ion-title>
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <div>{{ tournamentInfo.name }}</div>
+        <div style="font-size: 0.9em; color: var(--ion-color-medium);">
+          {{ tournamentInfo.date | date: 'MM/dd/yyyy, h:mma' }}
+        </div>
+      </div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
