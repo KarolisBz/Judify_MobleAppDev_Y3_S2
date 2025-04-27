@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SwipeGestureService } from './services/gestures/swipe-gesture.service';
 import { Location } from '@angular/common';
 import { AuthService } from './services/account/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent {
   // fetch ion-content
   @ViewChild(IonApp, { read: ElementRef }) content!: ElementRef;
 
-  constructor(private platform: Platform, private swipeGestureService: SwipeGestureService, private location: Location, private authService: AuthService) { }
+  constructor(private platform: Platform, private swipeGestureService: SwipeGestureService, private authService: AuthService, private router: Router) { }
 
   ngAfterViewInit() {
     if (this.content) { // ensure content is loaded / avaliable
@@ -31,14 +32,36 @@ export class AppComponent {
     }
   }
 
+  // store the frozen navigation stack
+  // we want custom logic, not using a moving stack
+  private frozenNavStack: string[] = [
+    '/home',
+    '/login',
+    '/dashboard',
+    '/tournament-participant',
+  ];
+
   swipeBack() {
     // go back once
-    this.location.back();
+    let currentIndex = this.frozenNavStack.indexOf(this.router.url); // get the last url
+    let targetPage = this.frozenNavStack[Math.max(0, currentIndex - 1)]; // get the previous page
+    this.router.navigateByUrl(targetPage); // navigate to the previous page
     console.log('Back Swipe');
+
+    // if we reach login page, logout user
+    if (this.authService.getCurrentUser() != null && currentIndex <= 2) { // if user is logged in and trying to go to login page
+      this.authService.logout(); // logout user
+      this.authService.showToast('Logged out', 'danger', 1500); // show toast message
+    }
   }
 
   swipeForward() {
-    this.location.forward();
     console.log('foward Swipe');
+    let currentIndex = this.frozenNavStack.indexOf(this.router.url); // get the last url
+    let targetPage = this.frozenNavStack[Math.min(this.frozenNavStack.length - 1, currentIndex + 1)]; // get foward page
+
+    if (this.authService.getCurrentUser() != null && currentIndex >= 2 || currentIndex < 1) { // if user is logged in and trying to go to login page
+      this.router.navigateByUrl(targetPage); // navigate to the foward page
+    }
   }
 }
