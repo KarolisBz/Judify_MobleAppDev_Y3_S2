@@ -21,6 +21,7 @@ export class OrganizerRegisterModalComponent  implements OnInit {
   }
 
   register() {
+    this.authService.showToast("Organizers registration are not accepted at this time", "warning", 2000)
     this.cancel()
   }
 }

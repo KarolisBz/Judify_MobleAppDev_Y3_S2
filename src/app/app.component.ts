@@ -15,10 +15,15 @@ export class AppComponent {
   // fetch ion-content
   @ViewChild(IonApp, { read: ElementRef }) content!: ElementRef;
 
-  constructor(private platform: Platform, private swipeGestureService: SwipeGestureService, private authService: AuthService, private router: Router, private localPersistence: LocalpersistenceService) { }
+  constructor(private platform: Platform, private swipeGestureService: SwipeGestureService, private authService: AuthService, private router: Router, private localPersistence: LocalpersistenceService) {
+    // auto login
+    this.autoLoginAttempt();
+  }
 
-  async ngOnInit() {
-    // try logging in with saved details
+  async ngOnInit() { }
+
+  // this will auto log you in if your data was left saved
+  async autoLoginAttempt(): Promise<void> {
     const remeberMe: any = await this.localPersistence.hasItem('user_info');
     if (remeberMe) {
       const savedDetails: any = await this.localPersistence.getItem('user_info');
@@ -26,6 +31,7 @@ export class AppComponent {
     }
   }
 
+  // custom gesture navigation
   ngAfterViewInit() {
     if (this.content) { // ensure content is loaded / avaliable
       this.platform.ready().then(() => {

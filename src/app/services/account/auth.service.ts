@@ -147,7 +147,7 @@ export class AuthService {
     if (this.platform.is('capacitor')) {
       await Toast.show({
         text: message,
-        duration: 'short',
+        duration: 'long',
         position: 'bottom',
       });
     } else {
