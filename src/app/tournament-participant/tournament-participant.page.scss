@@ -6,14 +6,15 @@
     width: 100%;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    transform-origin: 0 0; /* scaling from top-left corner */
-    transition: transform 0.2s ease; /* Smooth zooming */
   }
   
   .bracket-table {
     border-collapse: separate;
     border-spacing: 80px 40px; /* Space between rounds and matches */
     width: 100%;
+    will-change: transform; // browser optimization for zooming
+    transform-origin: 0 0; /* scaling from top-left corner */
+    transition: transform 0.2s ease; /* Smooth zooming */
   }
   
   th {

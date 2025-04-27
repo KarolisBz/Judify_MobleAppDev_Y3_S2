@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { Platform, Gesture } from '@ionic/angular';
+import { PinchGestureService } from '../services/gestures/pinch-gesture.service';
 
 
 @Component({
@@ -13,15 +15,20 @@ import { Router } from '@angular/router';
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class TournamentParticipantPage implements OnInit {
-  tournamentInfo!: any;
+  // elements
+  @ViewChild('target', { read: ElementRef }) content!: ElementRef;
   wrapper: HTMLElement | null = null;
   bracketTable: HTMLElement;
-  svg: HTMLElement | null = null;
-  playerCells: any | null = null;
-  zoomIntensity: number = 0.1; // initial zoom level
+  // data
+  tournamentInfo!: any;
+  // settings
+  zoomIntensity: number = 0.1; // zoom strength for scrolling
   scale: number = 1;
+  // local vars
+  private gesture!: Gesture;
 
-  constructor(private router: Router) {
+
+  constructor(private router: Router, private pinchGestureService: PinchGestureService, private platform: Platform) {
     // we fetch the tournament info from the navigation state
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) { // we use optional chaining to avoid errors
@@ -30,8 +37,17 @@ export class TournamentParticipantPage implements OnInit {
 
     this.wrapper = document.querySelector('.bracket-wrapper');
     this.bracketTable = document.querySelector('.bracket-table')!;
-    this.svg = document.querySelector('.bracket-lines');
-    this.playerCells = document.querySelectorAll('.player-cell');
+  }
+
+  private scaleVeiw(zoom: number): void {
+    // change current scale
+    this.scale += zoom;
+
+    // Limit the zoom range
+    this.scale = Math.min(Math.max(0.1, this.scale), 2.5);
+
+    // Apply scaling
+    this.bracketTable.style.transform = `scale(${this.scale})`;
   }
 
   ngOnInit() {
@@ -44,20 +60,57 @@ export class TournamentParticipantPage implements OnInit {
           event.preventDefault(); // Prevent scroll
 
           if (event.deltaY < 0) {
-            // Scroll up   Zoom in
-            this.scale += this.zoomIntensity;
+            // Scroll up = Zoom in
+            this.scaleVeiw(+this.zoomIntensity);
           } else {
             // Scroll down = Zoom out
-            this.scale -= this.zoomIntensity;
+            this.scaleVeiw(-this.zoomIntensity);
           }
-
-          // Limit the zoom range
-          this.scale = Math.min(Math.max(0.1, this.scale), 2.5);
-
-          // Apply scaling
-          this.bracketTable.style.transform = `scale(${this.scale})`;
         }
       });
+    }
+  }
+
+  ngAfterViewInit() {
+    // adding custom pinch gesture
+    // this adds mobile support for zoom in / out
+    if (this.platform.testUserAgent('mobile')) {
+      this.gesture = this.pinchGestureService.createPinchGesture(
+        this.content,
+        (scaleStrength: number) => this.onPinchOut(scaleStrength), // zoom in
+        (scaleStrength: number) => this.onPinchIn(scaleStrength), // zoom out
+        () => this.onPinchEnd(),
+        () => this.onPinchStart()
+      ); // cleanup the gesture when not in use
+    }
+  }
+
+  onPinchIn(scaleStrength: number) {
+    this.scaleVeiw(scaleStrength); // zoom in
+  }
+
+  onPinchOut(scaleStrength: number) {
+    this.scaleVeiw(scaleStrength); // zoom out
+  }
+
+  onPinchStart() {
+    // disable scrolling
+    if (this.wrapper) {
+      this.wrapper.style.overflow = 'hidden';
+    }
+  }
+
+  onPinchEnd() {
+    // re-enable scrolling
+    if (this.wrapper) {
+      this.wrapper.style.overflow = 'auto';
+    }
+  }
+
+  ngOnDestroy() {
+    // clean up gesture when component is destroyed
+    if (this.gesture) {
+      this.gesture.destroy();
     }
   }
 }
