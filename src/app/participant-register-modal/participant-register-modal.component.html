@@ -10,41 +10,41 @@
 <ion-content class="ion-text-center">
   <div class="center-items">
     <ion-item>
-      <ion-input label="Enter Competition Code" labelPlacement="stacked" type="text" placeholder="GFA2-AFB-X42-MM4-AX2" readonly></ion-input>
+      <ion-input label="Enter Competition Code" labelPlacement="stacked" type="text" placeholder="GFA2-AFB-X42-MM4-AX2" readonly [(ngModel)]="participant.tournament_code"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input label="Enter your full name" labelPlacement="stacked" type="text" placeholder="Name & Surname"></ion-input>
+      <ion-input label="Enter your full name" labelPlacement="stacked" type="text" placeholder="Name & Surname" [(ngModel)]="participant.name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input label="Enter your club affiliation" labelPlacement="stacked" type="text" placeholder="Club / University"></ion-input>
+      <ion-input label="Enter your club affiliation" labelPlacement="stacked" type="text" placeholder="Club / University" [(ngModel)]="participant.club"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input label="Enter your email" labelPlacement="stacked" type="text" placeholder="Example@email.ie"></ion-input>
+      <ion-input label="Enter your email" labelPlacement="stacked" type="text" placeholder="Example@email.ie" [(ngModel)]="participant.email"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input label="Enter your home address" labelPlacement="stacked" type="text" placeholder="Home Address"></ion-input>
+      <ion-input label="Enter your home address" labelPlacement="stacked" type="text" placeholder="Home Address" [(ngModel)]="participant.address"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input label="Enter your phone number" labelPlacement="stacked" type="text" placeholder="353+"></ion-input>
+      <ion-input label="Enter your phone number" labelPlacement="stacked" type="text" placeholder="353+" [(ngModel)]="participant.phoneNumber"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input label="Enter your emergancy contact" labelPlacement="stacked" type="text" placeholder="353+"></ion-input>
+      <ion-input label="Enter your emergancy contact" labelPlacement="stacked" type="text" placeholder="353+" [(ngModel)]="participant.emergancyContact"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-select label="Select Sex" labelPlacement="stacked" placeholder="Male / Female">
+      <ion-select label="Select Sex" labelPlacement="stacked" placeholder="Male / Female" [(ngModel)]="participant.sex">
       <ion-select-option value="male">Male</ion-select-option>
       <ion-select-option value="female">Female</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-select label="Select Age Category" labelPlacement="stacked" placeholder="under 18 / over 18">
+      <ion-select label="Select Age Category" labelPlacement="stacked" placeholder="under 18 / over 18" [(ngModel)]="participant.age">
       <ion-select-option value="under 18">under 18</ion-select-option>
       <ion-select-option value="over 18">over 18</ion-select-option>
       <ion-select-option value="senior 60+">senior 60+</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-select label="Select weight class" labelPlacement="stacked" placeholder="under 60 KG">
+      <ion-select label="Select weight class" labelPlacement="stacked" placeholder="under 60 KG" [(ngModel)]="participant.weightClass">
       <ion-select-option value="60">under 60 KG</ion-select-option>
       <ion-select-option value="66">60 - 66 KG</ion-select-option>
       <ion-select-option value="73">66 - 73 KG</ion-select-option>
@@ -55,7 +55,7 @@
       </ion-select>
     </ion-item>
       <ion-item>
-        <ion-select label="Select Kyū / Belt" labelPlacement="stacked" placeholder="White">
+        <ion-select label="Select Kyū / Belt" labelPlacement="stacked" placeholder="White" [(ngModel)]="participant.belt">
         <ion-select-option value="White">White</ion-select-option>
         <ion-select-option value="Yellow">Yellow</ion-select-option>
         <ion-select-option value="Orange">Orange</ion-select-option>

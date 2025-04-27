@@ -26,4 +26,8 @@ export const routes: Routes = [
     path: 'gesture-test',
     loadComponent: () => import('./gesture-test/gesture-test.page').then( m => m.GestureTestPage)
   },
+  {
+    path: 'complete-registration',
+    loadComponent: () => import('./complete-registration/complete-registration.page').then( m => m.CompleteRegistrationPage)
+  },
 ];

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonContent, IonHeader, IonTitle, IonToolbar, ModalController, IonButton, IonButtons, IonItem, IonInput, IonFooter } from '@ionic/angular/standalone';
+import { AuthService } from '../services/account/auth.service';
 
 @Component({
   selector: 'app-organizer-register-modal',
@@ -11,7 +12,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, ModalController, IonButton
 })
 export class OrganizerRegisterModalComponent  implements OnInit {
 
-  constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController, private authService: AuthService) {}
 
   ngOnInit() {}
 

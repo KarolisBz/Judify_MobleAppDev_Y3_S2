@@ -31,6 +31,7 @@
     "@capacitor/network": "^7.0.1",
     "@capacitor/preferences": "^7.0.1",
     "@capacitor/status-bar": "7.0.1",
+    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
     "@ionic/angular": "^8.0.0",
     "@ionic/pwa-elements": "^3.3.0",
     "firebase": "^11.6.1",

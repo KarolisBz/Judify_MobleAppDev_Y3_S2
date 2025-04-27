@@ -1,0 +1,12 @@
+specVersion: "v1"
+serviceId: "judofy"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "judofy-fdc"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]
