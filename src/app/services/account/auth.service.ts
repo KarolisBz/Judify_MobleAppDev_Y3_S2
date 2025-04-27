@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ToastController } from '@ionic/angular';
-import { Toast } from '@capacitor/toast'
+import { Toast } from '@capacitor/toast';
 import { Platform } from '@ionic/angular';
 import { Participant } from 'src/app/classes/account/participant';
 import { Router } from '@angular/router';
@@ -128,14 +128,15 @@ export class AuthService {
       if (this.platform.is('capacitor')) {
         await Toast.show({
           text: message,
-          duration: 'long',
+          duration: 'short',
           position: 'bottom',
         });
       } else {
         const toast = await this.toastController.create({
           message: message,
-          duration: 2000,  // 2 seconds duration
+          duration: duration,  // 2 seconds duration
           position: 'bottom',
+          color: color,
         });
         await toast.present();
       }
