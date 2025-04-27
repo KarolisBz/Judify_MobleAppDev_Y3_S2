@@ -39,10 +39,7 @@ export class TournamentParticipantPage implements OnInit {
     this.bracketTable = document.querySelector('.bracket-table')!;
   }
 
-  private scaleVeiw(zoom: number): void {
-    // change current scale
-    this.scale += zoom;
-
+  private scaleVeiw(): void {
     // Limit the zoom range
     this.scale = Math.min(Math.max(0.1, this.scale), 2.5);
 
@@ -61,11 +58,13 @@ export class TournamentParticipantPage implements OnInit {
 
           if (event.deltaY < 0) {
             // Scroll up = Zoom in
-            this.scaleVeiw(+this.zoomIntensity);
+            this.scale += this.zoomIntensity
           } else {
             // Scroll down = Zoom out
-            this.scaleVeiw(-this.zoomIntensity);
+            this.scale -= this.zoomIntensity;
           }
+
+          this.scaleVeiw();
         }
       });
     }
@@ -74,36 +73,41 @@ export class TournamentParticipantPage implements OnInit {
   ngAfterViewInit() {
     // adding custom pinch gesture
     // this adds mobile support for zoom in / out
-    if (this.platform.testUserAgent('mobile')) {
+    if (this.platform.is('mobile')) {
       this.gesture = this.pinchGestureService.createPinchGesture(
         this.content,
         (scaleStrength: number) => this.onPinchOut(scaleStrength), // zoom in
         (scaleStrength: number) => this.onPinchIn(scaleStrength), // zoom out
-        () => this.onPinchEnd(),
-        () => this.onPinchStart()
+        () => this.onPinchStart(),
+        () => this.onPinchEnd()
       ); // cleanup the gesture when not in use
     }
   }
 
-  onPinchIn(scaleStrength: number) {
-    this.scaleVeiw(scaleStrength); // zoom in
+  onPinchIn(newScale: number) {
+    this.scale += newScale;
+    this.scaleVeiw();
   }
 
-  onPinchOut(scaleStrength: number) {
-    this.scaleVeiw(scaleStrength); // zoom out
+  onPinchOut(newScale: number) {
+    this.scale += newScale;
+    this.scaleVeiw();
   }
 
   onPinchStart() {
     // disable scrolling
     if (this.wrapper) {
-      this.wrapper.style.overflow = 'hidden';
+      // Disabling touch actions to prevent scrolling
+      this.content.nativeElement.touchAction = 'none';
+      this.content.nativeElement.style.overflow = 'hidden';
     }
   }
 
   onPinchEnd() {
     // re-enable scrolling
     if (this.wrapper) {
-      this.wrapper.style.overflow = 'auto';
+      this.content.nativeElement.touchAction = '';
+      this.content.nativeElement.style.overflow = 'auto';
     }
   }
 

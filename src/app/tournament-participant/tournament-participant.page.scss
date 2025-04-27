@@ -102,3 +102,11 @@
     transform: translateX(-32.5px);
     z-index: 1;
   }
+
+/* Prevent table internals from blocking gestures */
+.bracket-table div,
+table, td, tr, thead, tbody {
+  pointer-events: none;
+  user-select: none;
+  touch-action: none;
+}

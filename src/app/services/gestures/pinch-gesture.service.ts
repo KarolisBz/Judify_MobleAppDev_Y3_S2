@@ -61,15 +61,16 @@ export class PinchGestureService {
 
         if (tempNum > -9999) {
           const currentDistance = tempNum;
-          const scaleStrength = currentDistance / this.startDistance;
+          //const scaleStrength = 0.0001 * (currentDistance - this.startDistance); // Calculate the scale strength
+          const scale = currentDistance / this.startDistance; // Calculate the scale factor
 
           // If the current distance is greater than the starting distance, it's a pinch out (zoom in)
           if (currentDistance > this.startDistance) {
-            onPinchOut(scaleStrength); // Call pinch out callback
+            onPinchOut(scale); // Call pinch out callback
           }
           // If the current distance is less than the starting distance, it's a pinch in (zoom out)
           else if (currentDistance < this.startDistance) {
-            onPinchIn(scaleStrength); // Call pinch in callback
+            onPinchIn(scale); // Call pinch in callback
           }
         }
       },
