@@ -23,6 +23,12 @@ export class LoginPage implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.userType = params['type'] || 'Unknown';
     });
+
+    // user gets logged out if they navigate to this page
+    if (this.authService.getCurrentUser() != null) {
+      this.authService.logout(); // logout user if he is already logged in
+      this.authService.showToast('Logged out', 'danger', 1500); // show toast message
+    }
   }
 
   async openModal() {

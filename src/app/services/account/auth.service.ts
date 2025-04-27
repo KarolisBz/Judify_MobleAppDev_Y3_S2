@@ -106,6 +106,7 @@ export class AuthService {
     try {
       await signInWithEmailAndPassword(this.auth, email, password);
       this.showToast('Login success', 'success', 1000);
+      this.router.navigate(['/dashboard']);
     } catch (error) {
       console.error('Login failed', error);
       this.showToast('Login failed. Please check your credentials.', 'danger');
