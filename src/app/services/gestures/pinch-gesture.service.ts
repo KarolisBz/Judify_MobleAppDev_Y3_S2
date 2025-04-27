@@ -6,6 +6,7 @@ import { GestureDetail, GestureController, Gesture } from '@ionic/angular'
 export class PinchGestureService {
   // class fields
   private startDistance: number = 0;
+  private isMoving: boolean = false; // flag to check if gesture is moving
 
   constructor(private gestureController: GestureController) { }
 
@@ -56,27 +57,38 @@ export class PinchGestureService {
       },
 
       onMove: (detail: GestureDetail) => {
-        // if 2 fingers are touching screen at once
-        let tempNum: number = this.getDistanceBetweenPoints(detail);
+        if (!this.isMoving) {
+          this.isMoving = true;
 
-        if (tempNum > -9999) {
-          const currentDistance = tempNum;
-          //const scaleStrength = 0.0001 * (currentDistance - this.startDistance); // Calculate the scale strength
-          const scale = currentDistance / this.startDistance; // Calculate the scale factor
+          // we sync this with animation frame rate instead to improve smoothness
+          requestAnimationFrame(() => {
+            // if 2 fingers are touching screen at once
+            let tempNum: number = this.getDistanceBetweenPoints(detail);
 
-          // If the current distance is greater than the starting distance, it's a pinch out (zoom in)
-          if (currentDistance > this.startDistance) {
-            onPinchOut(scale); // Call pinch out callback
-          }
-          // If the current distance is less than the starting distance, it's a pinch in (zoom out)
-          else if (currentDistance < this.startDistance) {
-            onPinchIn(scale); // Call pinch in callback
-          }
+            if (tempNum > -9999) {
+              const currentDistance = tempNum;
+              //const scaleStrength = 0.0001 * (currentDistance - this.startDistance); // Calculate the scale strength
+              const scale = currentDistance / this.startDistance; // Calculate the scale factor
+
+              // If the current distance is greater than the starting distance, it's a pinch out (zoom in)
+              if (currentDistance > this.startDistance) {
+                onPinchOut(scale); // Call pinch out callback
+              }
+              // If the current distance is less than the starting distance, it's a pinch in (zoom out)
+              else if (currentDistance < this.startDistance) {
+                onPinchIn(scale); // Call pinch in callback
+              }
+            }
+
+            // Reset the flag after the frame is rendered
+            this.isMoving = false;
+          });
         }
       },
 
-      onEnd() {
+      onEnd: () => {
         // singal gesture has endded
+        this.isMoving = false; // reset the moving flag
         onPinchEnd();
       }
     });

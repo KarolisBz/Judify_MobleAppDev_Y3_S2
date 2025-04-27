@@ -85,12 +85,12 @@ export class TournamentParticipantPage implements OnInit {
   }
 
   onPinchIn(newScale: number) {
-    this.scale += newScale;
+    this.scale = newScale;
     this.scaleVeiw();
   }
 
   onPinchOut(newScale: number) {
-    this.scale += newScale;
+    this.scale = newScale;
     this.scaleVeiw();
   }
 
@@ -106,8 +106,8 @@ export class TournamentParticipantPage implements OnInit {
   onPinchEnd() {
     // re-enable scrolling
     if (this.wrapper) {
-      this.content.nativeElement.touchAction = '';
-      this.content.nativeElement.style.overflow = 'auto';
+      //this.content.nativeElement.touchAction = '';
+      //this.content.nativeElement.style.overflow = 'auto';
     }
   }
 
