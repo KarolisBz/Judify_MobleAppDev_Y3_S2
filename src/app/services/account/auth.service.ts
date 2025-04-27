@@ -5,6 +5,7 @@ import { Toast } from '@capacitor/toast';
 import { Platform } from '@ionic/angular';
 import { Participant } from 'src/app/classes/account/participant';
 import { Router } from '@angular/router';
+import { LocalpersistenceService } from '../presistance/localpersistence.service';
 // firebase
 import { Auth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User, createUserWithEmailAndPassword, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from '@angular/fire/auth';
 import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
@@ -17,7 +18,7 @@ export class AuthService {
   private currentUser = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUser.asObservable();
 
-  constructor(private auth: Auth, private toastController: ToastController, private firestore: Firestore, private router: Router, private platform: Platform) {
+  constructor(private auth: Auth, private toastController: ToastController, private firestore: Firestore, private router: Router, private platform: Platform, private localPersistence: LocalpersistenceService) {
     // change user automatically
     onAuthStateChanged(this.auth, (user) => {
       this.currentUser.next(user);
@@ -60,8 +61,8 @@ export class AuthService {
     sendSignInLinkToEmail(this.auth, email, actionCodeSettings)
       .then(() => {
         // Saving data locally so you can complete sign-up later
-        window.localStorage.setItem('emailForSignIn', email);
-        window.localStorage.setItem('newUserData', newUserData);
+        this.localPersistence.setItem('emailForSignIn', email);
+        this.localPersistence.setItem('newUserData', newUserData);
         console.log('sign-up email sent!');
       })
       .catch((error) => {
@@ -69,9 +70,9 @@ export class AuthService {
       });
   }
 
-  completeRegistration(auth: any, actionCode: any) {
-    const email = window.localStorage.getItem('emailForSignIn');
-    const newUserData = window.localStorage.getItem('newUserData');
+  async completeRegistration(auth: any, actionCode: any) {
+    const email = await this.localPersistence.getItem('emailForSignIn');
+    const newUserData = await this.localPersistence.getItem('newUserData');
 
     if (isSignInWithEmailLink(auth, actionCode)) {
       // Complete the sign-in process with the email link
@@ -95,9 +96,11 @@ export class AuthService {
   async login(email: string, password: string): Promise<void> {
     try {
       await signInWithEmailAndPassword(this.auth, email, password);
+      this.localPersistence.setItem("user_info", {uid: this.auth.currentUser?.uid, email: email})
       this.showToast('Login success', 'success', 1000);
       this.router.navigate(['/dashboard']);
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Login failed', error);
       this.showToast('Login failed. Please check your credentials.', 'danger');
     }
@@ -105,6 +108,7 @@ export class AuthService {
 
   // logout promise operation working in the background
   async logout(): Promise<void> {
+    this.localPersistence.clearStorage();
     await signOut(this.auth);
   }
 

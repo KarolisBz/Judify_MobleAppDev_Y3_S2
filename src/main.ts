@@ -5,6 +5,8 @@ import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { Storage } from '@ionic/storage-angular';
 
 // Firebase imports
 import { initializeApp } from 'firebase/app';
@@ -25,6 +27,14 @@ bootstrapApplication(AppComponent, {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    IonicStorageModule,
+    {
+      provide: Storage,
+      useFactory: () => {
+        const storage = new Storage();
+        return storage.create();
+      },
+    }
   ],
 });
 

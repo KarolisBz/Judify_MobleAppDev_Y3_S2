@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../services/account/auth.service';
 import { ServerDataService } from '../services/serverData/server-data.service';
+import { LocalpersistenceService } from '../services/presistance/localpersistence.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,18 +28,19 @@ export class DashboardPage implements OnInit {
   filteredData$?: Observable<any[]>;
 
 
-  constructor(private router: Router, private authService: AuthService, private serverData: ServerDataService) {
+  constructor(private router: Router, private authService: AuthService, private serverData: ServerDataService, private localPersistence: LocalpersistenceService) {
     // user can't skip foward to fashboard if they are not logged in
     if (this.authService.getCurrentUser() == null) {
-      //this.router.navigate(['/login']);
+      this.router.navigate(['/login']);
     }
   }
 
   async ngOnInit() {
     // Initially no filter: show everything
-    let userData: any = await this.authService.getUserData("eAVIYEbNyMQDEpVxAhERlM0hMbE3");  // Get user data
-    console.log(userData);
-    
+    // we use cached user data, as it's faster than loading in every component providing a better user expirence
+    const user_info: any = await this.localPersistence.getItem("user_info");
+    let userData: any = await this.authService.getUserData(user_info.uid);  // Get user data
+
     // Fetch tournament entries based on user data
     this.serverData.getTournaments(userData).subscribe((data: any) => {
       data.map((tournament: any) => {
@@ -50,7 +52,7 @@ export class DashboardPage implements OnInit {
 
     // Define the filteredData$ observable
     this.filteredData$ = this.tournamentsSubject.asObservable();
-   }
+  }
 
   public filterTournaments() {
     this.filteredData$ = this.tournamentsSubject.pipe(
