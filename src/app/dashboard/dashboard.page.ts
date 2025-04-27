@@ -38,20 +38,24 @@ export class DashboardPage implements OnInit {
   async ngOnInit() {
     // Initially no filter: show everything
     // we use cached user data, as it's faster than loading in every component providing a better user expirence
-    const user_info: any = await this.localPersistence.getItem("user_info");
-    let userData: any = await this.authService.getUserData(user_info.uid);  // Get user data
+    const remeberMe: any = await this.localPersistence.hasItem('user_info');
+    if (remeberMe) {
+      const savedDetails: any = await this.localPersistence.getItem('user_info');
+      const user_info: any = await this.localPersistence.getItem("user_info");
+      let userData: any = await this.authService.getUserData(user_info.uid);  // Get user data
 
-    // Fetch tournament entries based on user data
-    this.serverData.getTournaments(userData).subscribe((data: any) => {
-      data.map((tournament: any) => {
-        tournament.date = new Date(tournament.date.seconds * 1000);
+      // Fetch tournament entries based on user data
+      this.serverData.getTournaments(userData).subscribe((data: any) => {
+        data.map((tournament: any) => {
+          tournament.date = new Date(tournament.date.seconds * 1000);
+        });
+
+        this.tournamentsSubject.next(data);  // Update BehaviorSubject with new data
       });
 
-      this.tournamentsSubject.next(data);  // Update BehaviorSubject with new data
-    });
-
-    // Define the filteredData$ observable
-    this.filteredData$ = this.tournamentsSubject.asObservable();
+      // Define the filteredData$ observable
+      this.filteredData$ = this.tournamentsSubject.asObservable();
+    }
   }
 
   public filterTournaments() {
