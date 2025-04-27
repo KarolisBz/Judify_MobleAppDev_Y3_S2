@@ -5,6 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonSegmentButton, IonList,
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { AuthService } from '../services/account/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -56,13 +57,17 @@ export class DashboardPage implements OnInit {
   filteredData$: Observable<any[]>;
 
 
-  constructor(private router: Router) { 
+  constructor(private router: Router, private authService: AuthService) {
     // Initially no filter: show everything
     this.filteredData$ = this.tournaments$.asObservable();
+
+    // user can't skip foward to fashboard if they are not logged in
+    if (this.authService.getCurrentUser() == null) {
+      this.router.navigate(['/login']);
+    }
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   public filterTournaments() {
     this.filteredData$ = this.tournaments$.pipe(
@@ -98,6 +103,6 @@ export class DashboardPage implements OnInit {
   openTournamentDetails(tournament: any) {
     this.router.navigate(['/tournament-participant'], {
       state: { tournament: tournament }
-      })
-    }
+    })
+  }
 }
