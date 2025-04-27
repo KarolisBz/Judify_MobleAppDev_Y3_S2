@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { Platform } from '@ionic/angular';
 import { SwipeGestureService } from './services/gestures/swipe-gesture.service';
-import { Location } from '@angular/common';
+import { LocalpersistenceService } from './services/presistance/localpersistence.service';
 import { AuthService } from './services/account/auth.service';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,16 @@ export class AppComponent {
   // fetch ion-content
   @ViewChild(IonApp, { read: ElementRef }) content!: ElementRef;
 
-  constructor(private platform: Platform, private swipeGestureService: SwipeGestureService, private authService: AuthService, private router: Router) { }
+  constructor(private platform: Platform, private swipeGestureService: SwipeGestureService, private authService: AuthService, private router: Router, private localPersistence: LocalpersistenceService) { }
+
+  async ngOnInit() {
+    // try logging in with saved details
+    const remeberMe: any = await this.localPersistence.hasItem('user_info');
+    if (remeberMe) {
+      const savedDetails: any = await this.localPersistence.getItem('user_info');
+      this.authService.login(savedDetails.email, savedDetails.password)
+    }
+  }
 
   ngAfterViewInit() {
     if (this.content) { // ensure content is loaded / avaliable

@@ -96,7 +96,7 @@ export class AuthService {
   async login(email: string, password: string): Promise<void> {
     try {
       await signInWithEmailAndPassword(this.auth, email, password);
-      this.localPersistence.setItem("user_info", {uid: this.auth.currentUser?.uid, email: email})
+      this.localPersistence.setItem("user_info", {uid: this.auth.currentUser?.uid, email: email, password: password})
       this.showToast('Login success', 'success', 1000);
       this.router.navigate(['/dashboard']);
     }
