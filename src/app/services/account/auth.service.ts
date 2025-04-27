@@ -4,7 +4,7 @@ import { ToastController } from '@ionic/angular';
 import { Participant } from 'src/app/classes/account/participant';
 import { Router } from '@angular/router';
 // firebase
-import { Auth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User, createUserWithEmailAndPassword, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from '@angular/fire/auth';
+import { Auth, getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User, createUserWithEmailAndPassword, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 
 @Injectable({
@@ -66,13 +66,13 @@ export class AuthService {
       });
   }
 
-  completeRegistration() {
+  completeRegistration(auth: any, actionCode: any) {
     const email = window.localStorage.getItem('emailForSignIn');
     const newUserData = window.localStorage.getItem('newUserData');
 
-    if (isSignInWithEmailLink(this.auth, window.location.href)) {
+    if (isSignInWithEmailLink(auth, actionCode)) {
       // Complete the sign-in process with the email link
-      signInWithEmailLink(this.auth, email!, window.location.href)
+      signInWithEmailLink(auth, email!, window.location.href)
         .then((result) => {
           const user = result.user;
 
