@@ -78,7 +78,7 @@ export class TournamentParticipantPage implements OnInit {
         this.content,
         (scaleStrength: number) => this.onPinchOut(scaleStrength), // zoom in
         (scaleStrength: number) => this.onPinchIn(scaleStrength), // zoom out
-        () => this.onPinchStart(),
+        (initialX: number, initialY: number) => this.onPinchStart(initialX, initialY), // pinch start
         () => this.onPinchEnd()
       ); // cleanup the gesture when not in use
     }
@@ -94,10 +94,11 @@ export class TournamentParticipantPage implements OnInit {
     this.scaleVeiw();
   }
 
-  onPinchStart() {
+  onPinchStart(initialX: number, initialY: number) {
     // disable scrolling
     if (this.wrapper) {
       // Disabling touch actions to prevent scrolling
+      this.content.nativeElement.style.transformOrigin = `${initialX}px ${initialY}px`;
       this.content.nativeElement.touchAction = 'none';
       this.content.nativeElement.style.overflow = 'hidden';
     }
@@ -106,8 +107,8 @@ export class TournamentParticipantPage implements OnInit {
   onPinchEnd() {
     // re-enable scrolling
     if (this.wrapper) {
-      //this.content.nativeElement.touchAction = '';
-      //this.content.nativeElement.style.overflow = 'auto';
+      this.content.nativeElement.touchAction = '';
+      this.content.nativeElement.style.overflow = 'auto';
     }
   }
 

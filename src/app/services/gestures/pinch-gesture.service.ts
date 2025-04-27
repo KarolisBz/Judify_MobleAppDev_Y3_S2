@@ -7,6 +7,8 @@ export class PinchGestureService {
   // class fields
   private startDistance: number = 0;
   private isMoving: boolean = false; // flag to check if gesture is moving
+  private initX: number = 0; // initial x position
+  private initY: number = 0; // initial y position
 
   constructor(private gestureController: GestureController) { }
 
@@ -26,7 +28,9 @@ export class PinchGestureService {
       const y1 = touchPoints[0].clientY;
       const x2 = touchPoints[1].clientX;
       const y2 = touchPoints[1].clientY;
-      return this.calculateDistance(x1, y1, x2, y2);  // Calculate the start distance between fingers
+      this.initX = (x1 + x2) / 2;
+      this.initY = (y1 + y2) / 2; 
+      return this.calculateDistance(x1, y1, x2, y2);  // ensure fingers aren't too close
     }
     else {
       return -9999; // return negative value so we know less than 2fingures are tracking
@@ -38,7 +42,7 @@ export class PinchGestureService {
     element: ElementRef,
     onPinchIn: (scaleStrength: number) => void, // callback functions
     onPinchOut: (scaleStrength: number) => void, // callback functions
-    onPinchStart: () => void,
+    onPinchStart: (initX: number, initY: number) => void,
     onPinchEnd: () => void
   ): Gesture {
 
@@ -50,9 +54,9 @@ export class PinchGestureService {
         // if 2 fingers are touching screen at once
         let tempNum: number = this.getDistanceBetweenPoints(detail);
 
-        if (tempNum > -9999) {
+        if (tempNum != -9999) {
           this.startDistance = tempNum;
-          onPinchStart();
+          onPinchStart(this.initX, this.initY); // Call pinch start callback
         }
       },
 
@@ -65,18 +69,19 @@ export class PinchGestureService {
             // if 2 fingers are touching screen at once
             let tempNum: number = this.getDistanceBetweenPoints(detail);
 
-            if (tempNum > -9999) {
+            if (tempNum != -9999) {
               const currentDistance = tempNum;
-              //const scaleStrength = 0.0001 * (currentDistance - this.startDistance); // Calculate the scale strength
-              const scale = currentDistance / this.startDistance; // Calculate the scale factor
+              const threshold = window.innerWidth * 0.1; // Threshold to prevent jitter
+
+              const scale = (currentDistance+threshold) / this.startDistance; // Calculate the scale factor
 
               // If the current distance is greater than the starting distance, it's a pinch out (zoom in)
-              if (currentDistance > this.startDistance) {
-                onPinchOut(scale); // Call pinch out callback
+              if (currentDistance > this.startDistance + threshold) {
+                onPinchOut(scale);
               }
               // If the current distance is less than the starting distance, it's a pinch in (zoom out)
-              else if (currentDistance < this.startDistance) {
-                onPinchIn(scale); // Call pinch in callback
+              else if (currentDistance < this.startDistance - threshold) {
+                onPinchIn(scale); 
               }
             }
 
